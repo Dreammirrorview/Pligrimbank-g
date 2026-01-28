@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Pilgrims Coin Platform</title>
+    <link rel="stylesheet" href="../shared/css/banking.css">
+    <link rel="stylesheet" href="admin-styles.css">
+<script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>
+</head>
+<body>
+    <div class="bank-header admin-header">
+        <div class="bank-logo">
+            <img src="../shared/assets/IMG_20251020_084318.jpg" alt="Pilgrims Coin">
+            <span>Global Bank Pilgrim - Admin</span>
+        </div>
+        <nav class="nav-menu">
+            <span style="color: white;">Admin: Olawale Abdul-Ganiyu</span>
+            <a href="#" onclick="logout()" class="nav-link">Logout</a>
+        </nav>
+    </div>
+
+    <div class="dashboard-container">
+        <aside class="sidebar admin-sidebar">
+            <ul class="sidebar-menu">
+                <li class="sidebar-item active" onclick="showSection('admin-overview')">Overview</li>
+                <li class="sidebar-item" onclick="showSection('customers')">Customer Management</li>
+                <li class="sidebar-item" onclick="showSection('transactions')">Transaction Terminal</li>
+                <li class="sidebar-item" onclick="showSection('security')">Security Monitoring</li>
+                <li class="sidebar-item" onclick="showSection('network')">Network Status</li>
+                <li class="sidebar-item" onclick="showSection('robot')">Robot Statistics</li>
+                <li class="sidebar-item" onclick="showSection('account-generator')">Account Generator</li>
+                <li class="sidebar-item" onclick="showSection('bank-codes')">Bank Codes</li>
+            </ul>
+        </aside>
+
+        <main class="main-content">
+            <!-- Admin Overview -->
+            <section id="admin-overview" class="admin-section">
+                <h2>Admin Dashboard Overview</h2>
+                <div class="alert alert-success" style="margin-top: 2rem;">
+                    <strong>Welcome Olawale Abdul-Ganiyu!</strong> You are the sole administrator of Global Bank Pilgrim.
+                </div>
+
+                <div class="grid-4" style="margin-top: 2rem;">
+                    <div class="card">
+                        <div class="card-header">Total Customers</div>
+                        <div class="card-body">
+                            <div class="wallet-balance" id="totalCustomers">0</div>
+                            <small>Registered users</small>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">Pending Approvals</div>
+                        <div class="card-body">
+                            <div class="wallet-balance" id="pendingApprovals" style="color: var(--warning-color);">0</div>
+                            <small>Awaiting review</small>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">Total Transactions</div>
+                        <div class="card-body">
+                            <div class="wallet-balance" id="totalTransactions">0</div>
+                            <small>All transactions</small>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">Active Mining</div>
+                        <div class="card-body">
+                            <div class="wallet-balance" id="activeMining">0</div>
+                            <small>Users mining</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-top: 2rem;">
+                    <div class="card-header">Security Alerts</div>
+                    <div class="card-body" id="securityAlerts">
+                        <p>No security alerts at this time. System is secure.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Customer Management -->
+            <section id="customers" class="admin-section" style="display: none;">
+                <h2>Customer Management</h2>
+                <div class="card" style="margin-top: 2rem;">
+                    <div class="card-header">
+                        All Registered Customers
+                        <button class="btn btn-primary" onclick="refreshCustomers()" style="float: right;">Refresh</button>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-container">
+                            <table class="bank-table">
+                                <thead>
+                                    <tr>
+                                        <th>Account #</th>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Status</th>
+                                        <th>Balance</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="customerTable">
+                                    <tr>
+                                        <td colspan="6" style="text-align: center;">No customers found</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Customer Details Modal -->
+                <div class="modal" id="customerModal" style="display: none;">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3>Customer Details</h3>
+                            <button class="btn btn-danger" onclick="closeModal()">Close</button>
+                        </div>
+                        <div class="modal-body" id="customerDetails">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Transaction Terminal -->
+            <section id="transactions" class="admin-section" style="display: none;">
+                <h2>Transaction Terminal</h2>
+                <div class="card" style="margin-top: 2rem;">
+                    <div class="card-header">All Transactions Log</div>
+                    <div class="card-body">
+                        <div class="table-container">
+                            <table class="bank-table">
+                                <thead>
+                                    <tr>
+                                        <th>Transaction ID</th>
+                                        <th>Date/Time</th>
+                                        <th>User</th>
+                                        <th>Type</th>
+                                        <th>Amount</th>
+                                        <th>Status</th>
+                                        <th>Details</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="transactionTerminalTable">
+                                    <tr>
+                                        <td colspan="7" style="text-align: center;">No transactions found</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Security Monitoring -->
+            <section id="security" class="admin-section" style="display: none;">
+                <h2>Security Monitoring</h2>
+                
+                <div class="security-alert" style="margin-top: 2rem;">
+                    <h3>🚨 Real-Time Security System Active</h3>
+                    <p>Monitoring all login attempts, transactions, and unusual activities</p>
+                </div>
+
+                <div class="card" style="margin-top: 2rem;">
+                    <div class="card-header">Security Logs</div>
+                    <div class="card-body">
+                        <div class="table-container">
+                            <table class="bank-table">
+                                <thead>
+                                    <tr>
+                                        <th>Timestamp</th>
+                                        <th>Event Type</th>
+                                        <th>User</th>
+                                        <th>IP Address</th>
+                                        <th>Location</th>
+                                        <th>Device</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="securityLogs">
+                                    <tr>
+                                        <td colspan="7" style="text-align: center;">No security events logged</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-top: 2rem;">
+                    <div class="card-header">Hacking Detection System</div>
+                    <div class="card-body">
+                        <div class="alert alert-warning">
+                            <strong>Active Threats:</strong> None detected
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Search IP Address for Location Tracking</label>
+                            <div style="display: flex; gap: 1rem;">
+                                <input type="text" class="form-input" id="ipSearch" placeholder="Enter IP address">
+                                <button class="btn btn-primary" onclick="trackIP()">Track Location</button>
+                            </div>
+                        </div>
+                        <div class="map-container" id="mapContainer" style="display: none; margin-top: 1rem;">
+                            <div class="map-display" id="mapDisplay">
+                                <div id="locationInfo" style="text-align: center;">
+                                    <p>Enter an IP address to track location</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Network Status -->
+            <section id="network" class="admin-section" style="display: none;">
+                <h2>Network Status & Monitoring</h2>
+                
+                <div class="card" style="margin-top: 2rem;">
+                    <div class="card-header">Server Status</div>
+                    <div class="card-body">
+                        <div class="grid-2">
+                            <div>
+                                <h4>Server Health</h4>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 95%;"></div>
+                                </div>
+                                <p>95% - Excellent</p>
+                            </div>
+                            <div>
+                                <h4>Network Connectivity</h4>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 98%;"></div>
+                                </div>
+                                <p>98% - Excellent</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-top: 2rem;">
+                    <div class="card-header">Network Activity Monitor</div>
+                    <div class="card-body">
+                        <div style="background: #0d1117; color: white; padding: 1.5rem; border-radius: 10px; font-family: monospace; height: 400px; overflow-y: auto;" id="networkMonitor">
+                            <p>[System] Network monitoring initialized...</p>
+                            <p>[System] All systems operational</p>
+                            <p>[Network] Connection established to Pilgrims Coin blockchain</p>
+                            <p>[Network] Connection established to Bitcoin network</p>
+                            <p>[Network] Connection established to Ethereum network</p>
+                            <p>[System] Waiting for user activity...</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Robot Statistics -->
+            <section id="robot" class="admin-section" style="display: none;">
+                <h2>Pilgrim Robot Statistics</h2>
+                
+                <div class="card" style="margin-top: 2rem;">
+                    <div class="card-header">Robot Performance</div>
+                    <div class="card-body">
+                        <div class="grid-2">
+                            <div>
+                                <h4>Pilgrims Coin Value</h4>
+                                <div class="wallet-balance" id="coinValue">$0.50</div>
+                                <p>Current market value</p>
+                            </div>
+                            <div>
+                                <h4>Market Cap</h4>
+                                <div class="wallet-balance" id="marketCap">$1,234,567</div>
+                                <p>Estimated market capitalization</p>
+                            </div>
+                        </div>
+                        <div style="margin-top: 2rem;">
+                            <h4>Robot Activity Log</h4>
+                            <div style="background: #0d1117; color: #4caf50; padding: 1.5rem; border-radius: 10px; font-family: monospace; height: 300px; overflow-y: auto;" id="robotLog">
+                                <p>[Robot] Pilgrims Coin robot active and operational</p>
+                                <p>[Robot] Monitoring mining activities across all users</p>
+                                <p>[Robot] Auto-adjusting coin value based on mining volume</p>
+                                <p>[Robot] Notifying blockchain partners of Pilgrims Coin growth</p>
+                                <p>[Robot] Exchange rates updated: 1 PGC = $0.50 USD</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-top: 2rem;">
+                    <div class="card-header">Blockchain Integration Status</div>
+                    <div class="card-body">
+                        <div class="grid-2">
+                            <div class="alert alert-success">
+                                <strong>✅ Bitcoin.com</strong> - Connected and acknowledged
+                            </div>
+                            <div class="alert alert-success">
+                                <strong>✅ Blockchain.com</strong> - Connected and acknowledged
+                            </div>
+                            <div class="alert alert-success">
+                                <strong>✅ CoinMarketCap</strong> - Listed and tracking
+                            </div>
+                            <div class="alert alert-success">
+                                <strong>✅ CoinGecko</strong> - Listed and tracking
+                            </div>
+                            <div class="alert alert-success">
+                                <strong>✅ PancakeSwap</strong> - Liquidity added
+                            </div>
+                            <div class="alert alert-success">
+                                <strong>✅ Uniswap</strong> - Liquidity added
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Account Generator -->
+            <section id="account-generator" class="admin-section" style="display: none;">
+                <h2>Account Number Generator</h2>
+                <div class="card" style="margin-top: 2rem;">
+                    <div class="card-header">Generate Customer Account Number</div>
+                    <div class="card-body">
+                        <form id="accountGeneratorForm">
+                            <div class="form-group">
+                                <label class="form-label">Customer Username</label>
+                                <input type="text" class="form-input" id="customerUsername" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Account Number (10 digits)</label>
+                                <input type="text" class="form-input" id="newAccountNumber" readonly>
+                            </div>
+                            <button type="button" class="btn btn-warning" onclick="generateAccountNumber()">Generate Account Number</button>
+                            <button type="submit" class="btn btn-success">Assign to Customer</button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Bank Codes -->
+            <section id="bank-codes" class="admin-section" style="display: none;">
+                <h2>Nigerian Bank Codes</h2>
+                <div class="card" style="margin-top: 2rem;">
+                    <div class="card-header">All Bank Transfer Codes</div>
+                    <div class="card-body">
+                        <div class="table-container">
+                            <table class="bank-table">
+                                <thead>
+                                    <tr>
+                                        <th>Bank Name</th>
+                                        <th>CBN Code</th>
+                                        <th>Interswitch Code</th>
+                                        <th>Sandbox URL</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>Access Bank Nigeria Plc</td><td>044</td><td>ABP</td><td>sandbox.interswitchng.com</td></tr>
+                                    <tr><td>Diamond Bank Plc</td><td>063</td><td>DBP</td><td>sandbox.interswitchng.com</td></tr>
+                                    <tr><td>Ecobank Nigeria</td><td>050</td><td>ECO</td><td>sandbox.interswitchng.com</td></tr>
+                                    <tr><td>Enterprise Bank Plc</td><td>084</td><td>ENB</td><td>sandbox.interswitchng.com</td></tr>
+                                    <tr><td>Fidelity Bank Plc</td><td>070</td><td>FBP</td><td>sandbox.interswitchng.com</td></tr>
+                                    <tr><td>First Bank of Nigeria Plc</td><td>011</td><td>FBN</td><td>sandbox.interswitchng.com</td></tr>
+                                    <tr><td>First City Monument Bank</td><td>214</td><td>FCMB</td><td>sandbox.interswitchng.com</td></tr>
+                                    <tr><td>Guaranty Trust Bank Plc</td><td>058</td><td>GTB</td><td>sandbox.interswitchng.com</td></tr>
+                                    <tr><td>Jaiz Bank</td><td>301</td><td>JAIZ</td><td>sandbox.interswitchng.com</td></tr>
+                                    <tr><td>Keystone Bank Ltd</td><td>082</td><td>KSB</td><td>sandbox.interswitchng.com</td></tr>
+                                    <tr><td>Mainstreet Bank Plc</td><td>014</td><td>MSB</td><td>sandbox.interswitchng.com</td></tr>
+                                    <tr><td>Skye Bank Plc</td><td>076</td><td>SKYE</td><td>sandbox.interswitchng.com</td></tr>
+                                    <tr><td>Stanbic IBTC Plc</td><td>039</td><td>STANBIC</td><td>sandbox.interswitchng.com</td></tr>
+                                    <tr><td>Sterling Bank Plc</td><td>232</td><td>SBP</td><td>sandbox.interswitchng.com</td></tr>
+                                    <tr><td>Union Bank Nigeria Plc</td><td>032</td><td>UBN</td><td>sandbox.interswitchng.com</td></tr>
+                                    <tr><td>United Bank for Africa Plc</td><td>033</td><td>UBA</td><td>sandbox.interswitchng.com</td></tr>
+                                    <tr><td>Unity Bank Plc</td><td>215</td><td>UNITY</td><td>sandbox.interswitchng.com</td></tr>
+                                    <tr><td>WEMA Bank Plc</td><td>035</td><td>WEMA</td><td>sandbox.interswitchng.com</td></tr>
+                                    <tr><td>Zenith Bank International</td><td>057</td><td>ZIB</td><td>sandbox.interswitchng.com</td></tr>
+                                    <tr><td>Providus Bank</td><td>101</td><td>UMB</td><td>sandbox.interswitchng.com</td></tr>
+                                    <tr><td>Parallex Bank Ltd</td><td>104</td><td>PMF</td><td>sandbox.interswitchng.com</td></tr>
+                                    <tr><td>Lotus Bank Ltd</td><td>303</td><td>LTB</td><td>sandbox.interswitchng.com</td></tr>
+                                    <tr><td>Premium Trust Bank Ltd</td><td>105</td><td>PRM</td><td>sandbox.interswitchng.com</td></tr>
+                                    <tr><td>Signature Bank Ltd</td><td>106</td><td>SIG</td><td>sandbox.interswitchng.com</td></tr>
+                                    <tr><td>Globus Bank</td><td>103</td><td>GSB</td><td>sandbox.interswitchng.com</td></tr>
+                                    <tr><td>Titan Trust Bank</td><td>102</td><td>TTB</td><td>sandbox.interswitchng.com</td></tr>
+                                    <tr><td>Polaris Bank</td><td>067/076</td><td>SKYE</td><td>sandbox.interswitchng.com</td></tr>
+                                    <tr><td>Optimus Bank Ltd</td><td>107</td><td>OPM</td><td>sandbox.interswitchng.com</td></tr>
+                                    <tr><td>Standard Chartered Bank</td><td>068</td><td>SCB</td><td>sandbox.interswitchng.com</td></tr>
+                                    <tr><td>Suntrust Bank</td><td>100</td><td>SUN</td><td>sandbox.interswitchng.com</td></tr>
+                                    <tr><td style="background: #e8f5e9; font-weight: bold;">Adegan Global Bank</td><td style="background: #e8f5e9; font-weight: bold;">999</td><td style="background: #e8f5e9; font-weight: bold;">AGB</td><td style="background: #e8f5e9; font-weight: bold;">pilgrim.globalbank.ng</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="../shared/js/app.js"></script>
+    <script src="admin-dashboard.js"></script>
+</body>
+</html>

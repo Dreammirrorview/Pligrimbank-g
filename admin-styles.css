@@ -1,0 +1,290 @@
+/* Pilgrims Coin Platform - Admin Dashboard Custom Styles */
+
+.admin-section {
+    display: block;
+}
+
+/* Modal styles */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.modal-content {
+    background: white;
+    border-radius: 10px;
+    max-width: 900px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.modal-header h3 {
+    margin: 0;
+}
+
+.modal-body {
+    padding: 1.5rem;
+}
+
+/* Security alert pulse animation */
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(244, 67, 54, 0.7);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(244, 67, 54, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(244, 67, 54, 0);
+    }
+}
+
+.security-alert {
+    animation: pulse 2s infinite;
+}
+
+/* Network monitor terminal */
+.terminal-style {
+    background: #0d1117;
+    color: #00ff00;
+    font-family: 'Courier New', monospace;
+    padding: 1.5rem;
+    border-radius: 10px;
+    height: 400px;
+    overflow-y: auto;
+}
+
+.terminal-style p {
+    margin: 0.5rem 0;
+    line-height: 1.4;
+}
+
+.terminal-style .timestamp {
+    color: #888;
+}
+
+.terminal-style .success {
+    color: #4caf50;
+}
+
+.terminal-style .warning {
+    color: #ff9800;
+}
+
+.terminal-style .error {
+    color: #f44336;
+}
+
+/* Robot log styles */
+.robot-log {
+    background: #0d1117;
+    color: #00ff00;
+    font-family: 'Courier New', monospace;
+    padding: 1.5rem;
+    border-radius: 10px;
+    height: 300px;
+    overflow-y: auto;
+}
+
+.robot-log p {
+    margin: 0.5rem 0;
+    line-height: 1.4;
+}
+
+/* Admin action buttons */
+.admin-actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.admin-actions button {
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+    margin: 0.25rem;
+}
+
+/* Status badges for admin */
+.admin-status-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 15px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.admin-status-badge.approved {
+    background: #e8f5e9;
+    color: #2e7d32;
+}
+
+.admin-status-badge.pending {
+    background: #fff3e0;
+    color: #ef6c00;
+}
+
+.admin-status-badge.suspended {
+    background: #ffebee;
+    color: #c62828;
+}
+
+/* Statistics cards */
+.stat-card {
+    background: white;
+    border-radius: 10px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.stat-card .stat-value {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: var(--primary-color);
+    margin: 0.5rem 0;
+}
+
+.stat-card .stat-label {
+    font-size: 0.9rem;
+    color: #666;
+    text-transform: uppercase;
+}
+
+/* Map placeholder */
+.map-placeholder {
+    width: 100%;
+    height: 300px;
+    background: #e0e0e0;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #666;
+}
+
+.map-placeholder-content {
+    text-align: center;
+}
+
+.map-placeholder-content p {
+    margin: 0.5rem 0;
+}
+
+/* Network status indicators */
+.network-status {
+    display: flex;
+    gap: 1rem;
+    margin: 1rem 0;
+}
+
+.network-status-item {
+    flex: 1;
+    padding: 1rem;
+    background: #f5f5f5;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.network-status-item .status-dot {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 0.5rem;
+}
+
+.network-status-item .status-dot.online {
+    background: #4caf50;
+    animation: pulse 2s infinite;
+}
+
+.network-status-item .status-dot.offline {
+    background: #f44336;
+}
+
+/* Admin navigation enhancements */
+.sidebar .sidebar-item {
+    position: relative;
+    overflow: hidden;
+}
+
+.sidebar .sidebar-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 4px;
+    background: var(--white);
+    transform: scaleY(0);
+    transition: transform 0.3s;
+}
+
+.sidebar .sidebar-item:hover::before,
+.sidebar .sidebar-item.active::before {
+    transform: scaleY(1);
+}
+
+/* Data tables with sticky headers */
+.table-container {
+    overflow-x: auto;
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.bank-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.bank-table th {
+    position: sticky;
+    top: 0;
+    background: var(--primary-color);
+    color: var(--white);
+    z-index: 10;
+}
+
+/* Customer detail sections */
+.customer-detail-section {
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background: #f9f9f9;
+    border-radius: 10px;
+}
+
+.customer-detail-section h4 {
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.customer-detail-section p {
+    margin: 0.5rem 0;
+}
+
+.customer-detail-section p strong {
+    display: inline-block;
+    width: 180px;
+}

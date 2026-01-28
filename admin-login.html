@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login - Pilgrims Coin Platform</title>
+    <link rel="stylesheet" href="../shared/css/banking.css">
+<script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>
+</head>
+<body>
+    <div class="cover-page">
+        <div class="cover-content">
+            <div class="hero-section">
+                <h1 class="hero-title">Admin Access Only</h1>
+                <h2 class="hero-subtitle">Global Bank Pilgrim - Secure Administrator Portal</h2>
+                
+                <div class="alert alert-danger" style="margin: 2rem 0; max-width: 500px; margin-left: auto; margin-right: auto;">
+                    <strong>⚠️ Security Notice:</strong> This page is for authorized administrators only. All login attempts are monitored and logged.
+                </div>
+
+                <div class="form-container">
+                    <h2 style="text-align: center; margin-bottom: 2rem;">Administrator Login</h2>
+                    <form id="adminLoginForm">
+                        <div class="form-group">
+                            <label class="form-label">Username</label>
+                            <input type="text" class="form-input" id="adminUsername" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Password</label>
+                            <input type="password" class="form-input" id="adminPassword" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" required>
+                                I confirm I am authorized to access this admin panel
+                            </label>
+                        </div>
+
+                        <button type="submit" class="btn btn-danger btn-large" style="width: 100%;">Login as Admin</button>
+                    </form>
+
+                    <p style="text-align: center; margin-top: 1rem;">
+                        <a href="index.html" style="color: var(--white);">Return to Home</a>
+                    </p>
+                </div>
+
+                <div style="margin-top: 2rem; color: rgba(255,255,255,0.7); font-size: 0.9rem;">
+                    <p>Admin: Olawale Abdul-Ganiyu</p>
+                    <p>Owner & CEO, Adegan Global Bank Nigeria</p>
+                    <p>Contact: adeganglobal@gmail.com</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('adminLoginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('adminUsername').value;
+            const password = document.getElementById('adminPassword').value;
+
+            // Admin credentials
+            if (username === 'olawale' && password === 'admin123') {
+                // Log security event
+                const logs = JSON.parse(localStorage.getItem('securityLogs') || '[]');
+                logs.push({
+                    timestamp: new Date().toISOString(),
+                    type: 'admin-login',
+                    user: 'olawale',
+                    ip: '127.0.0.1',
+                    location: 'Admin Dashboard',
+                    device: 'Browser',
+                    status: 'success'
+                });
+                localStorage.setItem('securityLogs', JSON.stringify(logs));
+                
+                // Set admin session
+                localStorage.setItem('pilgrimAdmin', JSON.stringify({
+                    username: 'olawale',
+                    fullName: 'Olawale Abdul-Ganiyu Adeshina',
+                    email: 'adeganglobal@gmail.com'
+                }));
+                
+                alert('Welcome Admin Olawale Abdul-Ganiyu!');
+                window.location.href = 'admin-dashboard.html';
+            } else {
+                // Log failed attempt
+                const logs = JSON.parse(localStorage.getItem('securityLogs') || '[]');
+                logs.push({
+                    timestamp: new Date().toISOString(),
+                    type: 'admin-login',
+                    user: username,
+                    ip: '127.0.0.1',
+                    location: 'Admin Dashboard',
+                    device: 'Browser',
+                    status: 'failed'
+                });
+                localStorage.setItem('securityLogs', JSON.stringify(logs));
+                
+                alert('Invalid admin credentials! This attempt has been logged.');
+            }
+        });
+    </script>
+</body>
+</html>

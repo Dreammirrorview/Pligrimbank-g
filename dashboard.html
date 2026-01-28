@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Pilgrims Coin Platform</title>
+    <link rel="stylesheet" href="../shared/css/banking.css">
+    <link rel="stylesheet" href="styles.css">
+<script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>
+</head>
+<body>
+    <div class="bank-header">
+        <div class="bank-logo">
+            <img src="../shared/assets/IMG_20251020_084318.jpg" alt="Pilgrims Coin">
+            <span>Pilgrims Coin</span>
+        </div>
+        <nav class="nav-menu">
+            <span style="color: white;">Welcome, <span id="userName">User</span></span>
+            <a href="#" onclick="logout()" class="nav-link">Logout</a>
+        </nav>
+    </div>
+
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <ul class="sidebar-menu">
+                <li class="sidebar-item active" onclick="showSection('overview')">Overview</li>
+                <li class="sidebar-item" onclick="showSection('mining')">Mining</li>
+                <li class="sidebar-item" onclick="showSection('wallet')">Wallet</li>
+                <li class="sidebar-item" onclick="showSection('send')">Send Money</li>
+                <li class="sidebar-item" onclick="showSection('receive')">Receive</li>
+                <li class="sidebar-item" onclick="showSection('exchange')">Exchange</li>
+                <li class="sidebar-item" onclick="showSection('trading')">Trading Terminal</li>
+                <li class="sidebar-item" onclick="showSection('investment')">Investment</li>
+                <li class="sidebar-item" onclick="showSection('bank')">Bank Transfer</li>
+                <li class="sidebar-item" onclick="showSection('cards')">Cards</li>
+                <li class="sidebar-item" onclick="showSection('transactions')">Transactions</li>
+                <li class="sidebar-item" onclick="showSection('profile')">Profile</li>
+            </ul>
+        </aside>
+
+        <main class="main-content">
+            <!-- Overview Section -->
+            <section id="overview" class="dashboard-section">
+                <h2>Dashboard Overview</h2>
+                <div class="grid-2" style="margin-top: 2rem;">
+                    <div class="wallet-card">
+                        <div class="wallet-label">Pilgrims Coin Balance</div>
+                        <div class="wallet-balance" id="coinBalance">0.00000000</div>
+                        <div>1 Coin = $0.50 USD</div>
+                    </div>
+                    <div class="wallet-card" style="background: linear-gradient(135deg, #4caf50, #8bc34a);">
+                        <div class="wallet-label">Pilgrims Cash Balance</div>
+                        <div class="wallet-balance" id="cashBalance">$0.00</div>
+                        <div>Ready for withdrawal</div>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-top: 2rem;">
+                    <div class="card-header">Account Information</div>
+                    <div class="card-body">
+                        <p><strong>Account Number:</strong> <span id="accountNumber">-</span></p>
+                        <p><strong>Serial Number:</strong> <span id="serialNumber">-</span></p>
+                        <p><strong>Email:</strong> <span id="userEmail">-</span></p>
+                        <p><strong>Phone:</strong> <span id="userPhone">-</span></p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Mining Section -->
+            <section id="mining" class="dashboard-section" style="display: none;">
+                <h2>Mining Pilgrims Coin</h2>
+                <div class="mining-section" style="margin-top: 2rem;">
+                    <h3>Mining Status: <span id="miningStatus">Stopped</span></h3>
+                    <div class="mining-status">
+                        <div>
+                            <div class="wallet-label">Pilgrims Coin Mined</div>
+                            <div class="mining-counter" id="minedCoins">0.00000000</div>
+                        </div>
+                        <div>
+                            <div class="wallet-label">Pilgrims Cash Earned</div>
+                            <div class="mining-counter" id="minedCash">$0.00</div>
+                        </div>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="miningProgress" style="width: 0%"></div>
+                    </div>
+                    <div class="mining-controls">
+                        <button class="btn btn-success" onclick="startMining()">Start Mining</button>
+                        <button class="btn btn-warning" onclick="pauseMining()">Pause Mining</button>
+                        <button class="btn btn-danger" onclick="stopMining()">Stop Mining</button>
+                    </div>
+                    <p style="margin-top: 1rem; font-size: 0.9rem;">
+                        For every 1.0 Pilgrims Coin mined, you'll receive 0.5 USD in your Pilgrims Cash wallet automatically!
+                    </p>
+                </div>
+            </section>
+
+            <!-- Wallet Section -->
+            <section id="wallet" class="dashboard-section" style="display: none;">
+                <h2>Wallet Management</h2>
+                <div class="grid-2" style="margin-top: 2rem;">
+                    <div class="card">
+                        <div class="card-header">Pilgrims Coin Wallet</div>
+                        <div class="card-body">
+                            <div class="wallet-balance" id="walletCoinBalance" style="color: var(--primary-color);">0.00000000</div>
+                            <p>Wallet Address: <span id="coinWalletAddress">0x0000000000000000000000000000000000000000</span></p>
+                            <button class="btn btn-primary" onclick="generateCoinAddress()">Generate New Address</button>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">Pilgrims Cash Wallet</div>
+                        <div class="card-body">
+                            <div class="wallet-balance" id="walletCashBalance" style="color: var(--success-color);">$0.00</div>
+                            <p>Wallet Address: <span id="cashWalletAddress">0x0000000000000000000000000000000000000000</span></p>
+                            <button class="btn btn-primary" onclick="generateCashAddress()">Generate New Address</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-top: 2rem;">
+                    <div class="card-header">QR Codes</div>
+                    <div class="grid-2">
+                        <div>
+                            <h4>Pilgrims Coin QR Code</h4>
+                            <div class="qr-placeholder" id="coinQR">QR Code</div>
+                        </div>
+                        <div>
+                            <h4>Pilgrims Cash QR Code</h4>
+                            <div class="qr-placeholder" id="cashQR">QR Code</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Send Money Section -->
+            <section id="send" class="dashboard-section" style="display: none;">
+                <h2>Send Money / Crypto</h2>
+                <div class="card" style="margin-top: 2rem;">
+                    <form id="sendForm">
+                        <div class="form-group">
+                            <label class="form-label">Select Currency</label>
+                            <select class="form-select" id="sendCurrency">
+                                <option value="pilgrim-coin">Pilgrims Coin</option>
+                                <option value="pilgrim-cash">Pilgrims Cash</option>
+                                <option value="bitcoin">Bitcoin (BTC)</option>
+                                <option value="ethereum">Ethereum (ETH)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Recipient Wallet Address / Account Number</label>
+                            <input type="text" class="form-input" id="recipientAddress" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Amount</label>
+                            <input type="number" class="form-input" id="sendAmount" step="0.00000001" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Description (Optional)</label>
+                            <input type="text" class="form-input" id="sendDescription">
+                        </div>
+                        <button type="submit" class="btn btn-success btn-large">Send</button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- Receive Section -->
+            <section id="receive" class="dashboard-section" style="display: none;">
+                <h2>Receive Money / Crypto</h2>
+                <div class="card" style="margin-top: 2rem;">
+                    <div class="card-header">Your Wallet Addresses</div>
+                    <div class="card-body">
+                        <div style="margin-bottom: 2rem;">
+                            <h3>Pilgrims Coin Address</h3>
+                            <p style="word-break: break-all; font-family: monospace; background: #f5f5f5; padding: 1rem; margin: 1rem 0;" id="receiveCoinAddress">0x0000000000000000000000000000000000000000</p>
+                            <button class="btn btn-primary" onclick="copyAddress('receiveCoinAddress')">Copy Address</button>
+                        </div>
+                        <div>
+                            <h3>Pilgrims Cash Address</h3>
+                            <p style="word-break: break-all; font-family: monospace; background: #f5f5f5; padding: 1rem; margin: 1rem 0;" id="receiveCashAddress">0x0000000000000000000000000000000000000000</p>
+                            <button class="btn btn-primary" onclick="copyAddress('receiveCashAddress')">Copy Address</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Exchange Section -->
+            <section id="exchange" class="dashboard-section" style="display: none;">
+                <h2>Crypto Exchange</h2>
+                <div class="card" style="margin-top: 2rem;">
+                    <div class="card-header">Exchange Crypto</div>
+                    <div class="card-body">
+                        <form id="exchangeForm">
+                            <div class="form-group">
+                                <label class="form-label">From</label>
+                                <select class="form-select" id="fromCurrency">
+                                    <option value="pilgrim-coin">Pilgrims Coin</option>
+                                    <option value="pilgrim-cash">Pilgrims Cash</option>
+                                    <option value="bitcoin">Bitcoin (BTC)</option>
+                                    <option value="ethereum">Ethereum (ETH)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">To</label>
+                                <select class="form-select" id="toCurrency">
+                                    <option value="pilgrim-cash">Pilgrims Cash</option>
+                                    <option value="pilgrim-coin">Pilgrims Coin</option>
+                                    <option value="bitcoin">Bitcoin (BTC)</option>
+                                    <option value="ethereum">Ethereum (ETH)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Amount</label>
+                                <input type="number" class="form-input" id="exchangeAmount" step="0.00000001" required>
+                            </div>
+                            <p style="margin: 1rem 0;"><strong>Exchange Rate:</strong> <span id="exchangeRate">1.00</span></p>
+                            <p style="margin: 1rem 0;"><strong>You will receive:</strong> <span id="receiveAmount">0.00</span></p>
+                            <button type="submit" class="btn btn-primary btn-large">Exchange</button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-top: 2rem;">
+                    <div class="card-header">External Exchanges</div>
+                    <div class="card-body">
+                        <p>Trade Pilgrims Coin on these platforms:</p>
+                        <div class="grid-2" style="margin-top: 1rem;">
+                            <a href="https://pancakeswap.finance" target="_blank" class="btn btn-primary">PancakeSwap</a>
+                            <a href="https://app.uniswap.org" target="_blank" class="btn btn-primary">Uniswap</a>
+                            <a href="https://quickswap.exchange" target="_blank" class="btn btn-primary">QuickSwap</a>
+                            <a href="https://www.binance.com" target="_blank" class="btn btn-primary">Binance</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Trading Terminal -->
+            <section id="trading" class="dashboard-section" style="display: none;">
+                <h2>Trading Terminal</h2>
+                <div class="trading-terminal" style="margin-top: 2rem;">
+                    <div class="terminal-header">
+                        <div>
+                            <h3>Pilgrims Coin / USD</h3>
+                            <div class="price-display">$<span id="currentPrice">0.50</span></div>
+                            <div class="price-change positive">+2.5%</div>
+                        </div>
+                        <div style="text-align: right;">
+                            <p>24h High: <span style="color: #4caf50;">$0.55</span></p>
+                            <p>24h Low: <span style="color: #f44336;">$0.45</span></p>
+                            <p>24h Volume: <span>1,234,567 PGC</span></p>
+                        </div>
+                    </div>
+
+                    <div class="grid-2">
+                        <div>
+                            <h4 style="margin-bottom: 1rem;">Buy Pilgrims Coin</h4>
+                            <form id="buyForm">
+                                <div class="form-group">
+                                    <label class="form-label">Amount (USD)</label>
+                                    <input type="number" class="form-input" id="buyAmount" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">You will receive</label>
+                                    <input type="text" class="form-input" id="buyReceive" readonly>
+                                </div>
+                                <button type="submit" class="btn btn-success btn-large" style="width: 100%;">Buy</button>
+                            </form>
+                        </div>
+                        <div>
+                            <h4 style="margin-bottom: 1rem;">Sell Pilgrims Coin</h4>
+                            <form id="sellForm">
+                                <div class="form-group">
+                                    <label class="form-label">Amount (PGC)</label>
+                                    <input type="number" class="form-input" id="sellAmount" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">You will receive</label>
+                                    <input type="text" class="form-input" id="sellReceive" readonly>
+                                </div>
+                                <button type="submit" class="btn btn-danger btn-large" style="width: 100%;">Sell</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Investment Section -->
+            <section id="investment" class="dashboard-section" style="display: none;">
+                <h2>Pilgrim Investment</h2>
+                <div class="card" style="margin-top: 2rem;">
+                    <div class="card-header">Invest in Pilgrims Coin</div>
+                    <div class="card-body">
+                        <p style="margin-bottom: 1rem;">Invest in Pilgrims Coin for future achievements. Buy shares today and benefit!</p>
+                        <p style="margin-bottom: 1rem;"><strong>Share Details:</strong></p>
+                        <ul style="margin: 1rem 0; padding-left: 2rem;">
+                            <li>10-year share duration</li>
+                            <li>Yearly shareholder interest</li>
+                            <li>Dividends paid at end of every calendar month</li>
+                            <li>More details sent upon application</li>
+                        </ul>
+                        <a href="../pilgrims-investment/index.html" target="_blank" class="btn btn-primary btn-large">Go to Investment Platform</a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Bank Transfer Section -->
+            <section id="bank" class="dashboard-section" style="display: none;">
+                <h2>Bank Transfer</h2>
+                <div class="card" style="margin-top: 2rem;">
+                    <div class="card-header">Transfer to Bank Account</div>
+                    <div class="card-body">
+                        <form id="bankTransferForm">
+                            <div class="form-group">
+                                <label class="form-label">Select Bank</label>
+                                <select class="form-select" id="selectBank" required>
+                                    <option value="">Select a Bank</option>
+                                    <option value="044">Access Bank Nigeria Plc</option>
+                                    <option value="063">Diamond Bank Plc</option>
+                                    <option value="050">Ecobank Nigeria</option>
+                                    <option value="084">Enterprise Bank Plc</option>
+                                    <option value="070">Fidelity Bank Plc</option>
+                                    <option value="011">First Bank of Nigeria Plc</option>
+                                    <option value="214">First City Monument Bank</option>
+                                    <option value="058">Guaranty Trust Bank Plc</option>
+                                    <option value="301">Jaiz Bank</option>
+                                    <option value="082">Keystone Bank Ltd</option>
+                                    <option value="014">Mainstreet Bank Plc</option>
+                                    <option value="076">Skye Bank Plc</option>
+                                    <option value="039">Stanbic IBTC Plc</option>
+                                    <option value="232">Sterling Bank Plc</option>
+                                    <option value="032">Union Bank Nigeria Plc</option>
+                                    <option value="033">United Bank for Africa Plc</option>
+                                    <option value="215">Unity Bank Plc</option>
+                                    <option value="035">WEMA Bank Plc</option>
+                                    <option value="057">Zenith Bank International</option>
+                                    <option value="101">Providus Bank</option>
+                                    <option value="104">Parallex Bank Ltd</option>
+                                    <option value="303">Lotus Bank Ltd</option>
+                                    <option value="105">Premium Trust Bank Ltd</option>
+                                    <option value="106">Signature Bank Ltd</option>
+                                    <option value="103">Globus Bank</option>
+                                    <option value="102">Titan Trust Bank</option>
+                                    <option value="067">Polaris Bank</option>
+                                    <option value="107">Optimus Bank Ltd</option>
+                                    <option value="068">Standard Chartered Bank</option>
+                                    <option value="100">Suntrust Bank</option>
+                                    <option value="999">Adegan Global Bank (Our Bank)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Account Number</label>
+                                <input type="text" class="form-input" id="bankAccountNumber" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Account Name</label>
+                                <input type="text" class="form-input" id="bankAccountName" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Amount (NGN)</label>
+                                <input type="number" class="form-input" id="bankAmount" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Description</label>
+                                <input type="text" class="form-input" id="bankDescription">
+                            </div>
+                            <button type="submit" class="btn btn-success btn-large">Transfer</button>
+                        </form>
+                        <p style="margin-top: 1rem; font-size: 0.9rem; color: #666;">
+                            Transfers are processed within 5 minutes. International transfers may take longer.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Cards Section -->
+            <section id="cards" class="dashboard-section" style="display: none;">
+                <h2>Card Management</h2>
+                <div class="card" style="margin-top: 2rem;">
+                    <div class="card-header">Add Debit/Credit Card</div>
+                    <div class="card-body">
+                        <p>Accepts all major debit and credit cards worldwide</p>
+                        <form id="cardForm" style="margin-top: 1rem;">
+                            <div class="form-group">
+                                <label class="form-label">Card Number</label>
+                                <input type="text" class="form-input" id="cardNumber" placeholder="1234 5678 9012 3456" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Cardholder Name</label>
+                                <input type="text" class="form-input" id="cardholderName" required>
+                            </div>
+                            <div class="grid-2">
+                                <div class="form-group">
+                                    <label class="form-label">Expiry Date</label>
+                                    <input type="text" class="form-input" id="expiryDate" placeholder="MM/YY" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">CVV</label>
+                                    <input type="text" class="form-input" id="cvv" placeholder="123" required>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-large">Add Card</button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Transactions Section -->
+            <section id="transactions" class="dashboard-section" style="display: none;">
+                <h2>Transaction History</h2>
+                <div class="card" style="margin-top: 2rem;">
+                    <div class="card-header">Recent Transactions</div>
+                    <div class="card-body">
+                        <div class="table-container">
+                            <table class="bank-table">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Type</th>
+                                        <th>Description</th>
+                                        <th>Amount</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="transactionTable">
+                                    <tr>
+                                        <td colspan="5" style="text-align: center;">No transactions yet</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Profile Section -->
+            <section id="profile" class="dashboard-section" style="display: none;">
+                <h2>My Profile</h2>
+                <div class="card" style="margin-top: 2rem;">
+                    <div class="card-header">Profile Information</div>
+                    <div class="card-body">
+                        <form id="profileForm">
+                            <div class="form-group">
+                                <label class="form-label">Full Name</label>
+                                <input type="text" class="form-input" id="profileFullName" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Email</label>
+                                <input type="email" class="form-input" id="profileEmail" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Phone</label>
+                                <input type="tel" class="form-input" id="profilePhone" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Account Number</label>
+                                <input type="text" class="form-input" id="profileAccountNumber" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Serial Number</label>
+                                <input type="text" class="form-input" id="profileSerialNumber" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">BVN</label>
+                                <input type="text" class="form-input" id="profileBVN" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">NIN</label>
+                                <input type="text" class="form-input" id="profileNIN" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Address</label>
+                                <textarea class="form-input" id="profileAddress" readonly></textarea>
+                            </div>
+                            <button type="button" class="btn btn-primary" onclick="editProfile()">Edit Profile</button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="../shared/js/app.js"></script>
+    <script src="dashboard.js"></script>
+</body>
+</html>
