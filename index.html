@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pilgrims Coin Platform - Global Bank Pilgrim</title>
+    <link rel="stylesheet" href="../shared/css/banking.css">
+    <link rel="stylesheet" href="styles.css">
+<script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>
+</head>
+<body>
+    <!-- Cover Page -->
+    <div class="cover-page" id="coverPage">
+        <div class="cover-content">
+            <div class="hero-section">
+                <h1 class="hero-title">Global Bank Pilgrim</h1>
+                <h2 class="hero-subtitle">Pilgrims Coin Platform - Your Gateway to Cryptocurrency Banking</h2>
+                
+                <div class="owner-section">
+                    <img src="../shared/assets/IMG_20251020_084318.jpg" alt="Olawale Abdul-Ganiyu" class="owner-photo">
+                    <div class="owner-info">
+                        <h3 class="owner-name">Olawale Abdul-Ganiyu Adeshina</h3>
+                        <p class="owner-title">Owner & CEO</p>
+                        <p><strong>Date of Birth:</strong> 13/12/1985</p>
+                        <p><strong>Bank:</strong> Adegan Global Bank Nigeria</p>
+                        <p><strong>Email:</strong> adeganglobal@gmail.com</p>
+                        <p><strong>Phone:</strong> +2349030277275</p>
+                        <p><strong>Marital Status:</strong> Married</p>
+                        <p><strong>Gender:</strong> Male</p>
+                    </div>
+                </div>
+
+                <div class="cta-buttons">
+                    <a href="login.html" class="btn btn-primary btn-large">Login</a>
+                    <a href="register.html" class="btn btn-success btn-large">Register</a>
+                    <a href="forgot-password.html" class="btn btn-warning btn-large">Forgot Password</a>
+                </div>
+
+                <div class="admin-link">
+                    <a href="admin-login.html" class="nav-link" style="color: rgba(255,255,255,0.7); font-size: 0.9rem; margin-top: 2rem; display: inline-block;">Admin Login</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Check if user is already logged in
+        function checkAuth() {
+            const user = localStorage.getItem('pilgrimUser');
+            if (user) {
+                window.location.href = 'dashboard.html';
+            }
+        }
+        
+        checkAuth();
+    </script>
+</body>
+</html>

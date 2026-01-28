@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Pilgrims Coin Platform</title>
+    <link rel="stylesheet" href="../shared/css/banking.css">
+    <link rel="stylesheet" href="styles.css">
+<script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>
+</head>
+<body>
+    <div class="bank-header">
+        <div class="bank-logo">
+            <img src="../shared/assets/IMG_20251020_084318.jpg" alt="Pilgrims Coin">
+            <span>Pilgrims Coin</span>
+        </div>
+        <nav class="nav-menu">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="register.html" class="nav-link">Register</a>
+        </nav>
+    </div>
+
+    <div class="form-container">
+        <h2 style="text-align: center; margin-bottom: 2rem;">Login to Your Account</h2>
+        <form id="loginForm">
+            <div class="form-group">
+                <label class="form-label">Username or Email</label>
+                <input type="text" class="form-input" id="loginUsername" required>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Password</label>
+                <input type="password" class="form-input" id="loginPassword" required>
+            </div>
+
+            <div class="form-group">
+                <label>
+                    <input type="checkbox"> Remember me
+                </label>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-large" style="width: 100%;">Login</button>
+        </form>
+
+        <p style="text-align: center; margin-top: 1rem;">
+            <a href="forgot-password.html" style="color: var(--primary-color);">Forgot Password?</a>
+        </p>
+        <p style="text-align: center; margin-top: 0.5rem;">
+            Don't have an account? <a href="register.html" style="color: var(--primary-color);">Register here</a>
+        </p>
+    </div>
+
+    <script src="../shared/js/app.js"></script>
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('loginUsername').value;
+            const password = document.getElementById('loginPassword').value;
+
+            // Check if it's admin
+            if (username === 'olawale' && password === 'admin123') {
+                localStorage.setItem('pilgrimAdmin', JSON.stringify({
+                    username: 'olawale',
+                    fullName: 'Olawale Abdul-Ganiyu Adeshina',
+                    email: 'adeganglobal@gmail.com'
+                }));
+                alert('Welcome Admin Olawale Abdul-Ganiyu!');
+                window.location.href = 'admin-dashboard.html';
+                return;
+            }
+
+            // Check regular user
+            const userKey = 'pilgrimUser_' + username;
+            const userData = localStorage.getItem(userKey);
+
+            if (userData) {
+                const user = JSON.parse(userData);
+                if (user.password === password) {
+                    if (user.status !== 'approved') {
+                        alert('Your account is pending approval. Please wait for admin to approve your registration.');
+                        return;
+                    }
+                    localStorage.setItem('pilgrimUser', JSON.stringify(user));
+                    alert('Welcome ' + user.fullName + '!');
+                    window.location.href = 'dashboard.html';
+                } else {
+                    alert('Invalid password!');
+                }
+            } else {
+                alert('User not found!');
+            }
+        });
+    </script>
+</body>
+</html>
